@@ -30,7 +30,7 @@ class UsersController extends Controller
     }
 
     /**
-     * ceshi 
+     * ceshi
      * @throws AuthorizationException
      */
     public function update(UserRequest $request, ImageUploadHandler $uploader, User $user): \Illuminate\Http\RedirectResponse

@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Topic;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TopicRequest;
+use Illuminate\Support\Facades\Auth;
 
 class TopicsController extends Controller
 {
@@ -29,22 +32,32 @@ class TopicsController extends Controller
 
     public function create(Topic $topic)
     {
-        return view('topics.create_and_edit', compact('topic'));
+        $categories = Category::all();
+        return view('topics.create_and_edit', compact('topic','categories'));
     }
 
-    public function store(TopicRequest $request)
+    public function store(TopicRequest $request, Topic $topic): \Illuminate\Http\RedirectResponse
     {
-        $topic = Topic::create($request->all());
+        $topic->fill($request->all());
+        $topic->user_id = Auth::id();
+        $topic->save();
+
         return redirect()->route('topics.show', $topic->id)->with('message', 'Created successfully.');
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function edit(Topic $topic)
     {
         $this->authorize('update', $topic);
         return view('topics.create_and_edit', compact('topic'));
     }
 
-    public function update(TopicRequest $request, Topic $topic)
+    /**
+     * @throws AuthorizationException
+     */
+    public function update(TopicRequest $request, Topic $topic): \Illuminate\Http\RedirectResponse
     {
         $this->authorize('update', $topic);
         $topic->update($request->all());
@@ -52,7 +65,10 @@ class TopicsController extends Controller
         return redirect()->route('topics.show', $topic->id)->with('message', 'Updated successfully.');
     }
 
-    public function destroy(Topic $topic)
+    /**
+     * @throws AuthorizationException
+     */
+    public function destroy(Topic $topic): \Illuminate\Http\RedirectResponse
     {
         $this->authorize('destroy', $topic);
         $topic->delete();

@@ -6,8 +6,9 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "ext-json": "*",
         "fruitcake/laravel-cors": "^2.0",
-        "guzzlehttp/guzzle": "^7.0.1",
+        "guzzlehttp/guzzle": "^7.4",
         "intervention/image": "^2.7",
         "laravel/framework": "^8.65",
         "laravel/sanctum": "^2.11",
@@ -15,6 +16,7 @@
         "mews/captcha": "~3.0",
         "mews/purifier": "~3.3",
         "overtrue/laravel-lang": "~4.0",
+        "overtrue/pinyin": "~4.0",
         "summerblue/laravel-active": "8.*"
     },
     "require-dev": {

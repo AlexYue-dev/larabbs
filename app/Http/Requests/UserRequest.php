@@ -7,7 +7,7 @@ use Auth;
 
 class UserRequest extends FormRequest
 {
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
